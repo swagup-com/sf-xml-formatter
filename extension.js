@@ -1,8 +1,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require("vscode");
-let xml2js = require("xml2js");
-let fs = require("fs");
+const xml2js = require("xml2js");
+const fs = require("fs");
+const sortKeysRecursive = require("sort-keys-recursive");
 
 // Method to get text
 const readTextFromOpenFile = () => {
@@ -11,6 +12,15 @@ const readTextFromOpenFile = () => {
     return editor.document.getText();
   }
   return "";
+};
+
+// Method to write text
+const writeTextOnOpenFile = (content) => {
+  const editor = vscode.window.activeTextEditor;
+  if (editor) {
+    console.log("file: " + editor.document.uri.fsPath);
+    fs.writeFileSync(editor.document.uri.fsPath, content);
+  }
 };
 
 // this method is called when your extension is activated
@@ -52,9 +62,17 @@ function activate(context) {
       var parser = new xml2js.Parser();
       parser.parseString(xmlContent, function (err, result) {
         let jsonStr = JSON.stringify(result);
-        vscode.window.showInformationMessage(jsonStr);
-        console.log(jsonStr);
+        let jsonObj = JSON.parse(jsonStr);
+        let sortedJsonObj = sortKeysRecursive(jsonObj);
+
+        let builder = new xml2js.Builder();
+        let xml = builder.buildObject(sortedJsonObj);
+        writeTextOnOpenFile(xml);
+        vscode.window.showInformationMessage(
+          "The file has been formatted successfully!"
+        );
         console.log("Done");
+        console.log(err);
       });
       // vscode.window.showInformationMessage(xmlContent);
     }
