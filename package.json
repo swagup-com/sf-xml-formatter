@@ -2,6 +2,7 @@
 	"name": "sf-xml-formatter",
 	"displayName": "sf-xml-formatter",
 	"description": "Formatter for metadata files of Salesforce orgs",
+	"publisher": "drivero",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.55.0"
