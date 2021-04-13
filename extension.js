@@ -5,6 +5,25 @@ const xml2js = require("xml2js");
 const fs = require("fs");
 const sortKeysRecursive = require("sort-keys-recursive");
 
+const parserOptions = {
+  trim: true, // Trim the whitespace at the beginning and end of text nodes
+};
+
+const reverseAlphabeticalSort = function (a, b) {
+  console.log("a" + JSON.stringify(a));
+  console.log("b" + JSON.stringify(b));
+  if (a.hasOwnProperty("apexClass") && b.hasOwnProperty("apexClass")) {
+    console.log("a.apexClass: " + a.apexClass);
+    console.log("b.apexClass: " + b.apexClass);
+    return a.apexClass < b.apexClass;
+  }
+  return a < b;
+};
+
+const sortOptions = {
+  compareFunction: reverseAlphabeticalSort,
+};
+
 // Method to get text
 const readTextFromOpenFile = () => {
   const editor = vscode.window.activeTextEditor;
@@ -54,16 +73,12 @@ function activate(context) {
   let sortXmlCommand = vscode.commands.registerCommand(
     "sf-xml-formatter.formatXml",
     function () {
-      // The code you place here will be executed every time your command is executed
-
-      // Display a message box to the user
-
       let xmlContent = readTextFromOpenFile();
-      var parser = new xml2js.Parser();
+      var parser = new xml2js.Parser(parserOptions);
       parser.parseString(xmlContent, function (err, result) {
         let jsonStr = JSON.stringify(result);
-        let jsonObj = JSON.parse(jsonStr);
-        let sortedJsonObj = sortKeysRecursive(jsonObj);
+        let sortedJsonObj = sortKeysRecursive(result, sortOptions);
+        let sortedJsonObjStr = JSON.stringify(sortedJsonObj);
 
         let builder = new xml2js.Builder();
         let xml = builder.buildObject(sortedJsonObj);
@@ -71,10 +86,11 @@ function activate(context) {
         vscode.window.showInformationMessage(
           "The file has been formatted successfully!"
         );
+
+        console.log("jsonStr: " + jsonStr);
+        console.log("sorted : " + sortedJsonObjStr);
         console.log("Done");
-        console.log(err);
       });
-      // vscode.window.showInformationMessage(xmlContent);
     }
   );
 
