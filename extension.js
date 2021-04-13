@@ -1,6 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require("vscode");
+let xml2js = require("xml2js");
+let fs = require("fs");
 
 // Method to get text
 const readTextFromOpenFile = () => {
@@ -47,7 +49,14 @@ function activate(context) {
       // Display a message box to the user
 
       let xmlContent = readTextFromOpenFile();
-      vscode.window.showInformationMessage(xmlContent);
+      var parser = new xml2js.Parser();
+      parser.parseString(xmlContent, function (err, result) {
+        let jsonStr = JSON.stringify(result);
+        vscode.window.showInformationMessage(jsonStr);
+        console.log(jsonStr);
+        console.log("Done");
+      });
+      // vscode.window.showInformationMessage(xmlContent);
     }
   );
 
