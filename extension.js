@@ -28,26 +28,27 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
     let xmlContent = document.getText();
     var parser = new xml2js.Parser(parserOptions);
     let sortedXml;
+    let errorMsg = "";
 
     parser.parseString(xmlContent, function (err, result) {
-      if (err) {
-        vscode.window.showInformationMessage("Error formatting: " + err);
-      } else {
-        let sortedJsonObj = sortKeysRecursive(result, sortOptions);
-        let builder = new xml2js.Builder();
-        sortedXml = builder.buildObject(sortedJsonObj);
-        console.log("SORTED.");
+      if (result) {
+        try {
+          console.log("SORTING...");
+          let sortedJsonObj = sortKeysRecursive(result, sortOptions);
+          let builder = new xml2js.Builder();
+          sortedXml = builder.buildObject(sortedJsonObj);
+          console.log("END.");
+        } catch (error) {
+          errorMsg = "An unexpected error has occurred. Details: " + error;
+          console.log(errorMsg);
+        }
       }
     });
 
     if (sortedXml) {
-      console.log("sortedXml:\n " + sortedXml);
       vscode.window.showInformationMessage(
         "The file has been formatted successfully!"
       );
-
-      console.log("vscode.TextEdit.length: " + vscode.TextEdit.length);
-
       const firstLine = document.lineAt(0);
       const lastLine = document.lineAt(document.lineCount - 1);
       const textRange = new vscode.Range(
@@ -57,6 +58,9 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
 
       return [vscode.TextEdit.replace(textRange, sortedXml)];
     } else {
+      if (!sortedXml) {
+        vscode.window.showInformationMessage(errorMsg);
+      }
       return null;
     }
   },
