@@ -88,11 +88,9 @@ function activate(context) {
   let openRepoUrl = vscode.commands.registerCommand(
     "sf-xml-formatter.openDocs",
     function () {
-      // The code you place here will be executed every time your command is executed
-
-      // Display a message box to the user
-      vscode.window.showInformationMessage(
-        "Hello World from SF XML FORMATTER!"
+      // Open the repository to view the doc
+      vscode.env.openExternal(
+        vscode.Uri.parse("https://github.com/swagup-com/sf-xml-formatter")
       );
     }
   );
