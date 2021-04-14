@@ -12,10 +12,23 @@
 	],
 	"activationEvents": [
 		"onCommand:sf-xml-formatter.helloWorld",
-		"onCommand:sf-xml-formatter.formatXml"
+		"onCommand:sf-xml-formatter.formatXml",
+		"onLanguage:xml"
+		
 	],
 	"main": "./extension.js",
 	"contributes": {
+		"languages": [
+            {
+                "id": "xml",
+                "aliases": [
+                    "XML"
+                ],
+                "extensions": [
+                    "xml"
+                ]
+            }
+        ],
 		"commands": [
 			{
 				"command": "sf-xml-formatter.helloWorld",
