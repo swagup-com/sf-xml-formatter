@@ -3,7 +3,6 @@
 const vscode = require("vscode");
 const xml2js = require("xml2js");
 const fs = require("fs");
-const sortKeysRecursive = require("sort-keys-recursive");
 
 const parserOptions = {
   trim: true, // Trim the whitespace at the beginning and end of text nodes
@@ -34,7 +33,6 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
       if (result) {
         try {
           console.log("SORTING...");
-          let sortedJsonObj = sortKeysRecursive(result, sortOptions);
           let builder = new xml2js.Builder();
           sortedXml = builder.buildObject(sortedJsonObj);
           console.log("END.");
