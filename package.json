@@ -11,8 +11,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:sf-xml-formatter.helloWorld",
-		"onCommand:sf-xml-formatter.formatXml",
+		"onCommand:sf-xml-formatter.openDocs",
 		"onLanguage:xml"
 		
 	],
@@ -31,12 +30,8 @@
         ],
 		"commands": [
 			{
-				"command": "sf-xml-formatter.helloWorld",
-				"title": "Hello World"
-			},
-			{
-				"command": "sf-xml-formatter.formatXml",
-				"title": "Format XML file"
+				"command": "sf-xml-formatter.openDocs",
+				"title": "SF XML FORMATTER: Open docs"
 			}
 		]
 	},

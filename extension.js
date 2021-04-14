@@ -22,27 +22,9 @@ const sortOptions = {
   compareFunction: reverseAlphabeticalSort,
 };
 
-// Method to get text
-const readTextFromOpenFile = () => {
-  const editor = vscode.window.activeTextEditor;
-  if (editor) {
-    return editor.document.getText();
-  }
-  return "";
-};
-
-// Method to write text
-const writeTextOnOpenFile = (content) => {
-  const editor = vscode.window.activeTextEditor;
-  if (editor) {
-    console.log("file: " + editor.document.uri.fsPath);
-    fs.writeFileSync(editor.document.uri.fsPath, content);
-  }
-};
-
 vscode.languages.registerDocumentFormattingEditProvider("xml", {
   provideDocumentFormattingEdits(document) {
-    console.log("provideDocumentFormattingEdits");
+    console.log("FORMATTING...");
     let xmlContent = document.getText();
     var parser = new xml2js.Parser(parserOptions);
     let sortedXml;
@@ -51,29 +33,17 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
       if (err) {
         vscode.window.showInformationMessage("Error formatting: " + err);
       } else {
-        let jsonStr = JSON.stringify(result);
         let sortedJsonObj = sortKeysRecursive(result, sortOptions);
-        let sortedJsonObjStr = JSON.stringify(sortedJsonObj);
-
         let builder = new xml2js.Builder();
         sortedXml = builder.buildObject(sortedJsonObj);
-        // writeTextOnOpenFile(xml);
-
-        // console.log("jsonStr: " + jsonStr);
-        // console.log("sorted : " + sortedJsonObjStr);
-        console.log("Done");
+        console.log("SORTED.");
       }
     });
 
     if (sortedXml) {
-      console.log("sortedXml: " + sortedXml);
+      console.log("sortedXml:\n " + sortedXml);
       vscode.window.showInformationMessage(
         "The file has been formatted successfully!"
-      );
-
-      let fullRange = new vscode.Range(
-        document.positionAt(0),
-        document.positionAt(vscode.TextEdit.length - 1)
       );
 
       console.log("vscode.TextEdit.length: " + vscode.TextEdit.length);
@@ -104,16 +74,15 @@ function activate(context) {
   console.log(
     'Congratulations, your extension "sf-xml-formatter" is now active!'
   );
-
   console.log(
-    "languageId: " + vscode.window.activeTextEditor.document.languageId
+    "language: " + vscode.window.activeTextEditor.document.languageId
   );
 
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with  registerCommand
   // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand(
-    "sf-xml-formatter.helloWorld",
+  let openRepoUrl = vscode.commands.registerCommand(
+    "sf-xml-formatter.openDocs",
     function () {
       // The code you place here will be executed every time your command is executed
 
@@ -124,33 +93,7 @@ function activate(context) {
     }
   );
 
-  let sortXmlCommand = vscode.commands.registerCommand(
-    "sf-xml-formatter.formatXml",
-    function () {
-      let xmlContent = readTextFromOpenFile();
-      var parser = new xml2js.Parser(parserOptions);
-      parser.parseString(xmlContent, function (err, result) {
-        let jsonStr = JSON.stringify(result);
-        let sortedJsonObj = sortKeysRecursive(result, sortOptions);
-        let sortedJsonObjStr = JSON.stringify(sortedJsonObj);
-
-        let builder = new xml2js.Builder();
-        let xml = builder.buildObject(sortedJsonObj);
-        writeTextOnOpenFile(xml);
-        vscode.window.showInformationMessage(
-          "The file has been formatted successfully!"
-        );
-
-        console.log("jsonStr: " + jsonStr);
-        console.log("sorted : " + sortedJsonObjStr);
-        console.log("Done");
-      });
-    }
-  );
-
-  context.subscriptions.push(disposable);
-  context.subscriptions.push(sortXmlCommand);
-  // context.subscriptions.push(languageRegistration);
+  context.subscriptions.push(openRepoUrl);
 }
 
 // this method is called when your extension is deactivated
