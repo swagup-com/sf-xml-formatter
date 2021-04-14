@@ -3,6 +3,7 @@
 const vscode = require("vscode");
 const xml2js = require("xml2js");
 const fs = require("fs");
+const { sort } = require("./sorter.js");
 
 const parserOptions = {
   trim: true, // Trim the whitespace at the beginning and end of text nodes
@@ -34,6 +35,7 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
         try {
           console.log("SORTING...");
           let builder = new xml2js.Builder();
+          let sortedJsonObj = sort(result);
           sortedXml = builder.buildObject(sortedJsonObj);
           console.log("END.");
         } catch (error) {
