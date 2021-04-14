@@ -8,7 +8,7 @@
 		"vscode": "^1.55.0"
 	},
 	"categories": [
-		"Other"
+		"Formatters"
 	],
 	"activationEvents": [
 		"onCommand:sf-xml-formatter.openDocs",
