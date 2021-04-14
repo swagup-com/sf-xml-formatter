@@ -63,7 +63,7 @@ const getIdentifierFromObject = (key, value, relevantKeys) => {
             .join('|');
 }
 
-const sort = (object, options, key) => {
+const sort = (object, options = {}, key) => {
     const {relevantKeys = new Map(), nonSortKeys = []} = options;
 
     if (nonSortKeys.indexOf(key) !== -1) {
