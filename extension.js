@@ -5,6 +5,13 @@ const xml2js = require("xml2js");
 const fs = require("fs");
 const { sort } = require("./sorter.js");
 
+const fileNameSortDefaultConfiguration = "xmlformatter.cfg";
+
+const sortDefaultConfiguration = {
+  relevantKeys : new Map(),
+  nonSortKeys : []
+}
+
 const parserOptions = {
   trim: true, // Trim the whitespace at the beginning and end of text nodes
 };
@@ -17,6 +24,23 @@ const reverseAlphabeticalSort = function (a, b) {
   }
   return a < b;
 };
+
+const getSortConfiguration = function() {
+  const configurationPath = vscode.workspace.asRelativePath(fileNameSortDefaultConfiguration);
+  let options = undefined;
+
+  try {
+    options = JSON.parse(fs.readFileSync(configurationPath, "utf-8"));
+  } catch {
+    options = sortDefaultConfiguration;
+    fs.writeFileSync(
+      configurationPath, 
+      JSON.stringify(options),
+      { flag : "a" });
+  }
+
+  return options;
+}
 
 const sortOptions = {
   compareFunction: reverseAlphabeticalSort,
@@ -35,7 +59,8 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
         try {
           console.log("SORTING...");
           let builder = new xml2js.Builder();
-          let sortedJsonObj = sort(result);
+          const sortConfiguration = getSortConfiguration();
+          let sortedJsonObj = sort(result, sortConfiguration);
           sortedXml = builder.buildObject(sortedJsonObj);
           console.log("END.");
         } catch (error) {
