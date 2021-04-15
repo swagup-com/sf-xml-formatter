@@ -55,8 +55,8 @@ const getIdentifierFromArray = (key, value, relevantKeys)  => {
 }
 
 const getIdentifierFromObject = (key, value, relevantKeys) => {
-    const myRelevantKeys = relevantKeys.get(key) !== undefined ? 
-                           relevantKeys.get(key) : 
+    const myRelevantKeys = relevantKeys[key] !== undefined ? 
+                           relevantKeys[key] : 
                            Reflect.ownKeys(value)
     return myRelevantKeys
             .map(item => getIdentifier(item , value[item], relevantKeys))
@@ -64,7 +64,7 @@ const getIdentifierFromObject = (key, value, relevantKeys) => {
 }
 
 const sort = (object, options = {}, key) => {
-    const {relevantKeys = new Map(), nonSortKeys = []} = options;
+    const {relevantKeys = {}, nonSortKeys = []} = options;
 
     if (nonSortKeys.indexOf(key) !== -1) {
         return object;
