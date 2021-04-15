@@ -6,7 +6,8 @@ const fs = require("fs");
 const { sort } = require("./sorter.js");
 
 const encoding = "utf-8";
-const sortConfigurationFilePath = "./xmlformatter.cfg";
+const sortConfigurationFilePath = __dirname + "/xmlformatter.cfg";
+const packageJsonFilePath = __dirname + "/package.json";
 
 const sortDefaultConfiguration = {
   relevantKeys: new Map(),
@@ -34,9 +35,10 @@ const loadFileFromDisk = function (path) {
 
 const getSortConfiguration = function () {
   let options = loadFileFromDisk(sortConfigurationFilePath);
-  console.log(JSON.stringify(options));
+  console.log("options: " + JSON.stringify(options));
 
   if (!options) {
+    console.log("Create");
     options = sortDefaultConfiguration;
     fs.writeFileSync(sortConfigurationFilePath, JSON.stringify(options), {
       flag: "a",
@@ -112,8 +114,12 @@ function activate(context) {
     "sf-xml-formatter.openDocs",
     function () {
       // Open the repository to view the doc
+      let packageJson = loadFileFromDisk(packageJsonFilePath);
+      if (packageJson) {
+        console.log();
+      }
       vscode.env.openExternal(
-        vscode.Uri.parse("https://github.com/swagup-com/sf-xml-formatter")
+        vscode.Uri.parse(packageJson.repository.url.slice(0, -4))
       );
     }
   );
