@@ -18,6 +18,10 @@ const parserOptions = {
   trim: true, // Trim the whitespace at the beginning and end of text nodes
 };
 
+const builderOptions = {
+  xmldec: { version: "1.0", encoding: "UTF-8", standalone: null },
+};
+
 const loadFileFromDisk = function (path) {
   let fileObj = undefined;
   try {
@@ -60,7 +64,7 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
       if (result) {
         try {
           console.log("SORTING...");
-          let builder = new xml2js.Builder();
+          let builder = new xml2js.Builder(builderOptions);
           const sortConfiguration = getSortConfiguration();
           let sortedJsonObj = sort(result, sortConfiguration);
           sortedXml = builder.buildObject(sortedJsonObj);
