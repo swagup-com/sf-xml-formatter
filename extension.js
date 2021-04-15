@@ -10,7 +10,7 @@ const sortConfigurationFilePath = __dirname + "/xmlformatter.cfg";
 const packageJsonFilePath = __dirname + "/package.json";
 
 const sortDefaultConfiguration = {
-  relevantKeys: new Map(),
+  relevantKeys: {},
   nonSortKeys: [],
 };
 
