@@ -32,7 +32,12 @@
 				"command": "sf-xml-formatter.openDocs",
 				"title": "SF XML FORMATTER: Open docs"
 			}
-		]
+		],
+		"breakpoints": [
+			{
+			  "language": "xml"
+			}
+		  ]
 	},
 	"scripts": {
 		"lint": "eslint .",
@@ -56,5 +61,5 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/swagup-com/sf-xml-formatter.git"
-	  }
+	}
 }
