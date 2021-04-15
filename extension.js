@@ -5,7 +5,8 @@ const xml2js = require("xml2js");
 const fs = require("fs");
 const { sort } = require("./sorter.js");
 
-const fileNameSortDefaultConfiguration = "xmlformatter.cfg";
+const encoding = "utf-8";
+const sortConfigurationFilePath = "./xmlformatter.cfg";
 
 const sortDefaultConfiguration = {
   relevantKeys: new Map(),
@@ -16,17 +17,30 @@ const parserOptions = {
   trim: true, // Trim the whitespace at the beginning and end of text nodes
 };
 
-const getSortConfiguration = function () {
-  const configurationPath = vscode.workspace.asRelativePath(
-    fileNameSortDefaultConfiguration
-  );
-  let options = undefined;
-
+const loadFileFromDisk = function (path) {
+  let fileObj = undefined;
   try {
-    options = JSON.parse(fs.readFileSync(configurationPath, "utf-8"));
-  } catch {
+    console.log("path_exists: " + fs.existsSync(path));
+    if (fs.existsSync(path)) {
+      fileObj = JSON.parse(
+        fs.readFileSync(path, { encoding: encoding, flag: "r" })
+      );
+    }
+  } catch (error) {
+    console.log("Error trying to read file: " + path + " Details: " + error);
+  }
+  return fileObj;
+};
+
+const getSortConfiguration = function () {
+  let options = loadFileFromDisk(sortConfigurationFilePath);
+  console.log(JSON.stringify(options));
+
+  if (!options) {
     options = sortDefaultConfiguration;
-    fs.writeFileSync(configurationPath, JSON.stringify(options), { flag: "a" });
+    fs.writeFileSync(sortConfigurationFilePath, JSON.stringify(options), {
+      flag: "a",
+    });
   }
 
   return options;
