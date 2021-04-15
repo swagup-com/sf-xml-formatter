@@ -13,21 +13,20 @@
 	"activationEvents": [
 		"onCommand:sf-xml-formatter.openDocs",
 		"onLanguage:xml"
-		
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"languages": [
-            {
-                "id": "xml",
-                "aliases": [
-                    "XML"
-                ],
-                "extensions": [
-                    "xml"
-                ]
-            }
-        ],
+			{
+				"id": "xml",
+				"aliases": [
+					"XML"
+				],
+				"extensions": [
+					"xml"
+				]
+			}
+		],
 		"commands": [
 			{
 				"command": "sf-xml-formatter.openDocs",
