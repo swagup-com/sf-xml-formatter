@@ -45,6 +45,9 @@ const getIdentifier = (key, value, relevantKeys) => {
 }
 
 const getIdentifierFromBasicType = value => {
+    if (value === undefined) {
+        return "";
+    }
     return value.toString();
 }
 
