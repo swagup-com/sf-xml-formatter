@@ -44,9 +44,9 @@ const getSortConfiguration = function () {
   if (!options) {
     console.log("Create");
     options = sortDefaultConfiguration;
-    fs.writeFileSync(sortConfigurationFilePath, JSON.stringify(options), {
-      flag: "a",
-    });
+    // fs.writeFileSync(sortConfigurationFilePath, JSON.stringify(options), {
+    //   flag: "a",
+    // });
   }
 
   return options;
