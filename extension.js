@@ -8,42 +8,28 @@ const { sort } = require("./sorter.js");
 const fileNameSortDefaultConfiguration = "xmlformatter.cfg";
 
 const sortDefaultConfiguration = {
-  relevantKeys : new Map(),
-  nonSortKeys : []
-}
+  relevantKeys: new Map(),
+  nonSortKeys: [],
+};
 
 const parserOptions = {
   trim: true, // Trim the whitespace at the beginning and end of text nodes
 };
 
-const reverseAlphabeticalSort = function (a, b) {
-  // console.log("a" + JSON.stringify(a) + "\nb" + JSON.stringify(b));
-  if (a.hasOwnProperty("apexClass") && b.hasOwnProperty("apexClass")) {
-    // console.log("a.apexClass: " + a.apexClass + "\nb.apexClass: " + b.apexClass);
-    return a.apexClass < b.apexClass;
-  }
-  return a < b;
-};
-
-const getSortConfiguration = function() {
-  const configurationPath = vscode.workspace.asRelativePath(fileNameSortDefaultConfiguration);
+const getSortConfiguration = function () {
+  const configurationPath = vscode.workspace.asRelativePath(
+    fileNameSortDefaultConfiguration
+  );
   let options = undefined;
 
   try {
     options = JSON.parse(fs.readFileSync(configurationPath, "utf-8"));
   } catch {
     options = sortDefaultConfiguration;
-    fs.writeFileSync(
-      configurationPath, 
-      JSON.stringify(options),
-      { flag : "a" });
+    fs.writeFileSync(configurationPath, JSON.stringify(options), { flag: "a" });
   }
 
   return options;
-}
-
-const sortOptions = {
-  compareFunction: reverseAlphabeticalSort,
 };
 
 vscode.languages.registerDocumentFormattingEditProvider("xml", {
@@ -101,10 +87,8 @@ function activate(context) {
   // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
   console.log(
-    'Congratulations, your extension "sf-xml-formatter" is now active!'
-  );
-  console.log(
-    "language: " + vscode.window.activeTextEditor.document.languageId
+    '"sf-xml-formatter" is now active!\nlanguage: ' +
+      vscode.window.activeTextEditor.document.languageId
   );
 
   // The command has been defined in the package.json file
