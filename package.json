@@ -3,7 +3,8 @@
 	"displayName": "Salesforce XML Formatter",
 	"description": "Formatter for metadata files on Salesforce orgs",
 	"icon": "images/sf-xml_128x128.png",
-	"publisher": "drivero",
+	"publisher": "SwagUp",
+	"author": "drivero",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.55.0"
