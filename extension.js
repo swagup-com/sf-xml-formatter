@@ -43,12 +43,15 @@ const getSortConfiguration = function () {
 
 vscode.languages.registerDocumentFormattingEditProvider("xml", {
   provideDocumentFormattingEdits(document) {
-    console.log("FORMATTING...");
-    console.log("isFormatDisabled: " + isFormatDisabled());
     if (isFormatDisabled()) {
       return null;
     }
+
     let xmlContent = document.getText();
+    if (!xmlContent) {
+      return null;
+    }
+
     var parser = new xml2js.Parser(formatSettings.parserOptions);
     let sortedXml;
     let errorMsg = "";
