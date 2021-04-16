@@ -26,7 +26,7 @@ const loadFileFromDisk = function (path) {
       );
     }
   } catch (error) {
-    console.log("Error trying to read file: " + path + " Details: " + error);
+    console.error("Error trying to read file: " + path + " Details: " + error);
   }
   return fileObj;
 };
@@ -59,12 +59,10 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
     parser.parseString(xmlContent, function (err, result) {
       if (result) {
         try {
-          console.log("SORTING...");
           let builder = new xml2js.Builder(formatSettings.builderOptions);
           const sortConfiguration = getSortConfiguration();
           let sortedJsonObj = sort(result, sortConfiguration);
           sortedXml = builder.buildObject(sortedJsonObj);
-          console.log("END.");
         } catch (error) {
           errorMsg = "An unexpected error has occurred. Details: " + error;
           console.error(errorMsg);
@@ -111,9 +109,6 @@ function activate(context) {
     function () {
       // Open the repository to view the doc
       let packageJson = loadFileFromDisk(packageJsonFilePath);
-      if (packageJson) {
-        console.log();
-      }
       vscode.env.openExternal(
         vscode.Uri.parse(packageJson.repository.url.slice(0, -4))
       );
