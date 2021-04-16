@@ -15,9 +15,11 @@ const getFormatSettings = () => {
 };
 
 const isFormatDisabled = () => {
-  return vscode.workspace
-    .getConfiguration("sf-xml-formatter.format")
-    .get("enabled", false);
+  return (
+    vscode.workspace
+      .getConfiguration("sf-xml-formatter.format")
+      .get("enabled") === false
+  );
 };
 
 module.exports = {
