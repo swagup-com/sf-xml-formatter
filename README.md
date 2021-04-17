@@ -46,11 +46,14 @@ You can use the [Formatting](https://code.visualstudio.com/docs/editor/codebasic
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-- `myExtension.enable`: enable/disable this extension
-- `myExtension.thing`: set to `blah` to do something
+- `sf-xml-formatter.format.enabled`: Enable/disable ability to format document. Default is `true`.
+
+## Disable the formatter
+
+You can add the following the following line in your VS Code settings to disable the formatter.
+
+```json
+"sf-xml-formatter.format.enabled": false
+```
