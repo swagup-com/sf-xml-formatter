@@ -57,3 +57,12 @@ You can add the following the following line in your VS Code settings to disable
 ```json
 "sf-xml-formatter.format.enabled": false
 ```
+
+## Other commands
+
+There is a command to open the docs:
+`SF XML FORMATTER: Open docs`. Do the following to open the repository with all the documentation.
+
+```
+Using Command Palette (CMD/CTRL + Shift + P) -> SF XML FORMATTER: Open docs
+```
