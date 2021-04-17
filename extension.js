@@ -71,9 +71,6 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
     });
 
     if (sortedXml) {
-      vscode.window.showInformationMessage(
-        "The file has been formatted successfully!"
-      );
       const firstLine = document.lineAt(0);
       const lastLine = document.lineAt(document.lineCount - 1);
       const textRange = new vscode.Range(
