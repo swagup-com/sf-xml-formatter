@@ -37,9 +37,22 @@
 		],
 		"breakpoints": [
 			{
-			  "language": "xml"
+			  "language": "xml"		  
 			}
-		  ]
+		],
+		"configuration":[
+			{
+				"title": "sf-xml-formatter-vs-config",
+				"properties": {
+					"sf-xml-formatter.format.enabled": {
+						"type": "boolean",
+						"default": true,
+						"markdownDescription": "Enable/disable ability to format document. Default is `true`.",
+						"scope": "window"
+					  }
+				}
+			}
+		]
 	},
 	"scripts": {
 		"lint": "eslint .",
