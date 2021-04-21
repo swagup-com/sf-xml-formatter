@@ -58,7 +58,9 @@ You can add the following line in your VS Code settings to disable the formatter
 "sf-xml-formatter.format.enabled": false
 ```
 
-## Other commands
+## Commands
+
+### Open docs command
 
 There is a command to open the docs:
 `SF XML FORMATTER: Open docs`. Do the following to open the repository with all the documentation.
