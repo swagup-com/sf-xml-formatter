@@ -4,13 +4,23 @@
 	"description": "Formatter for metadata files on Salesforce orgs",
 	"icon": "images/sf-xml_128x128.png",
 	"publisher": "SwagUp",
-	"author": "drivero",
-	"version": "0.0.1",
+	"author": "Dainel Rivero <dainel@swagup.com> (https://github.com/drival1994)",
+	"contributors": [
+		"Mauricio Perdomo <mauricio@swagup.com> (https://github.com/stdevMauricio1802)"
+	],
+	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.55.0"
 	},
 	"categories": [
 		"Formatters"
+	],
+	"keywords": [
+		"xml",
+		"salesforce",
+		"git",
+		"metadata",
+		"sort"
 	],
 	"activationEvents": [
 		"onCommand:sf-xml-formatter.openDocs",
@@ -76,5 +86,9 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/swagup-com/sf-xml-formatter.git"
+	},
+	"bugs": {
+		"url": "https://github.com/swagup-com/sf-xml-formatter/issues",
+		"email": "dainel@swagup.com"
 	}
 }
