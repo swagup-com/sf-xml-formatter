@@ -16,7 +16,7 @@ Install through VS Code extensions. Search for Salesforce XML Formatter
 Can also be installed in VS Code: Launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter.
 
 ```
-ext install swagup.sf-xml-formatter
+ext install SwagUp.sf-xml-formatter
 ```
 
 ## Default Formatter
@@ -25,7 +25,7 @@ To ensure that this extension is used over other extensions you may have install
 
 ```json
 "[xml]": {
-    "editor.defaultFormatter": "swagup.sf-xml-formatter"
+    "editor.defaultFormatter": "SwagUp.sf-xml-formatter"
 }
 ```
 
@@ -35,7 +35,7 @@ You can add the following line in your VS Code settings to format automatically 
 
 ```json
 "[xml]": {
-    "editor.defaultFormatter": "swagup.sf-xml-formatter",
+    "editor.defaultFormatter": "SwagUp.sf-xml-formatter",
     "editor.formatOnSave": true
 }
 ```
