@@ -26,7 +26,7 @@ const loadFileFromDisk = function (path) {
       );
     }
   } catch (error) {
-    console.error("Error trying to read file: " + path + " Details: " + error);
+    console.error(`Error trying to read file: ${path} Details: ${error}`);
   }
   return fileObj;
 };
@@ -64,7 +64,7 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
           let sortedJsonObj = sort(result, sortConfiguration);
           sortedXml = builder.buildObject(sortedJsonObj);
         } catch (error) {
-          errorMsg = "An unexpected error has occurred. Details: " + error;
+          errorMsg = `An unexpected error has occurred. Details: ${error}`;
           console.error(errorMsg);
         }
       }
