@@ -43,8 +43,21 @@
 			{
 				"command": "sf-xml-formatter.openDocs",
 				"title": "SF XML FORMATTER: Open docs"
+			},
+			{
+				"command": "sf-xml-formatter.formatDirectory",
+				"title": "Format Directory"
 			}
 		],
+		"menus" : {
+			"explorer/context" : [
+				{
+					"command": "sf-xml-formatter.formatDirectory",
+					"group": "Salesforce Formatter",
+					"when": "explorerResourceIsFolder"
+				}
+			]
+		},
 		"breakpoints": [
 			{
 			  "language": "xml"		  
