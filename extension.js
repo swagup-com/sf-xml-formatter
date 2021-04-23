@@ -45,13 +45,21 @@ const getSortConfiguration = function () {
 const formatDirectory = function(dirPath) {
   let xmlFiles = fs.readdirSync(dirPath).filter(isXMLFile);
   console.log(xmlFiles);
+  let errors = []
   xmlFiles.forEach(xmlFile => {
-    formatFile(`${dirPath}${path.sep}${xmlFile}`);
+    let filePath = `${dirPath}${path.sep}${xmlFile}`; 
+    try {
+      formatFile(filePath);
+    } catch (error) {
+      let errorMsg = `Error formatting file ${filePath}. ${error}`;
+      console.error(errorMsg);
+      errors.push(errorMsg);
+    }
   })
+  vscode.window.showErrorMessage(errors.join('\n'));
 }
 
 const formatFile = function(filePath) {
-  console.log(filePath);
   let xmlContent = fs.readFileSync(filePath);
   let orderedXml = formatXML(xmlContent);
   fs.writeFileSync(filePath, orderedXml);
