@@ -41,34 +41,64 @@ const getSortConfiguration = function () {
   return options;
 };
 
+// const formatDirectoryCommand = function(context) {
+//   formatDirectory(context['path']);
+// }
+
+const formatDirectory = function(dirPath) {
+  let xmlFiles = fs.readdirSync(dirPath).filter(isXMLFile);
+  console.log(xmlFiles);
+  xmlFiles.forEach(xmlFile => {
+    formatFile(`${dirPath}${path.sep}${xmlFile}`);
+  })
+}
+
+const formatFile = function(filePath) {
+  console.log(filePath);
+  let xmlContent = fs.readFileSync(filePath);
+  let orderedXml = formatXML(xmlContent);
+  fs.writeFileSync(filePath, orderedXml);
+}
+
+const isXMLFile = function(fileName) {
+  let nameSplittedByDot = fileName.split('.');
+  return nameSplittedByDot[nameSplittedByDot.length - 1] === 'xml';
+}
+const formatXML = function (xmlContent) {
+  const parser = new xml2js.Parser(formatSettings.parserOptions);
+  let sortedXml;
+  parser.parseString(xmlContent, function (err, result) {
+    if (result) {
+        let builder = new xml2js.Builder(formatSettings.builderOptions);
+        const sortConfiguration = getSortConfiguration();
+        let sortedJsonObj = sort(result, sortConfiguration);
+        sortedXml = builder.buildObject(sortedJsonObj);
+    }
+  });
+  return sortedXml;
+} 
+
+
 vscode.languages.registerDocumentFormattingEditProvider("xml", {
   provideDocumentFormattingEdits(document) {
     if (isFormatDisabled()) {
       return null;
     }
-
+    
     let xmlContent = document.getText();
     if (!xmlContent) {
       return null;
     }
 
-    var parser = new xml2js.Parser(formatSettings.parserOptions);
-    let sortedXml;
-    let errorMsg = "";
+    let sortedXml; 
+    let errorMsg;
 
-    parser.parseString(xmlContent, function (err, result) {
-      if (result) {
-        try {
-          let builder = new xml2js.Builder(formatSettings.builderOptions);
-          const sortConfiguration = getSortConfiguration();
-          let sortedJsonObj = sort(result, sortConfiguration);
-          sortedXml = builder.buildObject(sortedJsonObj);
-        } catch (error) {
-          errorMsg = "An unexpected error has occurred. Details: " + error;
-          console.error(errorMsg);
-        }
-      }
-    });
+    try{
+      sortedXml = formatXML(xmlContent);
+    } catch (error) {
+        errorMsg = `An unexpected error has occurred. Details: ${error}`;
+        console.error(errorMsg);
+    }
 
     if (sortedXml) {
       const firstLine = document.lineAt(0);
