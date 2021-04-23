@@ -42,10 +42,6 @@ const getSortConfiguration = function () {
   return options;
 };
 
-// const formatDirectoryCommand = function(context) {
-//   formatDirectory(context['path']);
-// }
-
 const formatDirectory = function(dirPath) {
   let xmlFiles = fs.readdirSync(dirPath).filter(isXMLFile);
   console.log(xmlFiles);
