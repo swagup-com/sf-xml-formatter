@@ -1,6 +1,7 @@
 const vscode = require("vscode");
 const xml2js = require("xml2js");
 const fs = require("fs");
+const path = require("path");
 const { sort } = require("./sorter.js");
 const {
   getFormatSettings,
@@ -142,7 +143,13 @@ function activate(context) {
     }
   );
 
+  let formatDirCommand = vscode.commands.registerCommand(
+    "sf-xml-formatter.formatDirectory",
+    context => formatDirectory(context['path'])
+  );
+
   context.subscriptions.push(openRepoUrl);
+  context.subscriptions.push(formatDirCommand);
 }
 
 // this method is called when your extension is deactivated
