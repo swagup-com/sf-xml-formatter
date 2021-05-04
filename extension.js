@@ -1,6 +1,7 @@
 const vscode = require("vscode");
 const xml2js = require("xml2js");
 const fs = require("fs");
+const path = require("path");
 const { sort } = require("./sorter.js");
 const {
   getFormatSettings,
@@ -41,34 +42,68 @@ const getSortConfiguration = function () {
   return options;
 };
 
+const formatDirectory = function(dirPath) {
+  let xmlFiles = fs.readdirSync(dirPath).filter(isXMLFile);
+  console.log(xmlFiles);
+  let errors = []
+  xmlFiles.forEach(xmlFile => {
+    let filePath = `${dirPath}${path.sep}${xmlFile}`; 
+    try {
+      formatFile(filePath);
+    } catch (error) {
+      let errorMsg = `Error formatting file ${filePath}. ${error}`;
+      console.error(errorMsg);
+      errors.push(errorMsg);
+    }
+  })
+  vscode.window.showErrorMessage(errors.join('\n'));
+}
+
+const formatFile = function(filePath) {
+  let xmlContent = fs.readFileSync(filePath);
+  let orderedXml = formatXML(xmlContent);
+  fs.writeFileSync(filePath, orderedXml);
+}
+
+const isXMLFile = function(fileName) {
+  let nameSplittedByDot = fileName.split('.');
+  return nameSplittedByDot[nameSplittedByDot.length - 1] === 'xml';
+}
+const formatXML = function (xmlContent) {
+  const parser = new xml2js.Parser(formatSettings.parserOptions);
+  let sortedXml;
+  parser.parseString(xmlContent, function (err, result) {
+    if (result) {
+        let builder = new xml2js.Builder(formatSettings.builderOptions);
+        const sortConfiguration = getSortConfiguration();
+        let sortedJsonObj = sort(result, sortConfiguration);
+        sortedXml = builder.buildObject(sortedJsonObj);
+    }
+  });
+  return sortedXml;
+} 
+
+
 vscode.languages.registerDocumentFormattingEditProvider("xml", {
   provideDocumentFormattingEdits(document) {
     if (isFormatDisabled()) {
       return null;
     }
-
+    
     let xmlContent = document.getText();
     if (!xmlContent) {
       return null;
     }
 
-    var parser = new xml2js.Parser(formatSettings.parserOptions);
-    let sortedXml;
-    let errorMsg = "";
+    let sortedXml; 
+    let errorMsg;
 
-    parser.parseString(xmlContent, function (err, result) {
-      if (result) {
-        try {
-          let builder = new xml2js.Builder(formatSettings.builderOptions);
-          const sortConfiguration = getSortConfiguration();
-          let sortedJsonObj = sort(result, sortConfiguration);
-          sortedXml = builder.buildObject(sortedJsonObj);
-        } catch (error) {
-          errorMsg = "An unexpected error has occurred. Details: " + error;
-          console.error(errorMsg);
-        }
-      }
-    });
+    try{
+      sortedXml = formatXML(xmlContent);
+    } catch (error) {
+        errorMsg = `An unexpected error has occurred. Details: ${error}`;
+        console.error(errorMsg);
+    }
 
     if (sortedXml) {
       const firstLine = document.lineAt(0);
@@ -112,7 +147,13 @@ function activate(context) {
     }
   );
 
+  let formatDirCommand = vscode.commands.registerCommand(
+    "sf-xml-formatter.formatDirectory",
+    context => formatDirectory(context['path'])
+  );
+
   context.subscriptions.push(openRepoUrl);
+  context.subscriptions.push(formatDirCommand);
 }
 
 // this method is called when your extension is deactivated
