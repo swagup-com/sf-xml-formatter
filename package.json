@@ -46,7 +46,7 @@
 			},
 			{
 				"command": "sf-xml-formatter.formatDirectory",
-				"title": "Format Directory"
+				"title": "SF XML FORMATTER: Format XML files"
 			}
 		],
 		"menus" : {
@@ -56,7 +56,13 @@
 					"group": "Salesforce Formatter",
 					"when": "explorerResourceIsFolder"
 				}
-			]
+			],
+			"commandPalette": [
+				{
+				  "command": "sf-xml-formatter.formatDirectory",
+				  "when": "false"
+				}
+			]			
 		},
 		"breakpoints": [
 			{
