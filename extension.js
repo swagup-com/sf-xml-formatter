@@ -9,8 +9,8 @@ const {
 } = require("./settings/settings.js");
 
 const encoding = "utf-8";
-const sortConfigurationFilePath = __dirname + "/xmlformatter.cfg";
-const packageJsonFilePath = __dirname + "/package.json";
+const sortConfigurationFilePath = `${__dirname}/xmlformatter.cfg`;
+const packageJsonFilePath = `${__dirname}/package.json`;
 
 const formatSettings = getFormatSettings();
 const sortDefaultConfiguration = {
@@ -27,7 +27,7 @@ const loadFileFromDisk = function (path) {
       );
     }
   } catch (error) {
-    console.error("Error trying to read file: " + path + " Details: " + error);
+    console.error(`Error trying to read file: "${path}". Details: ${error}`);
   }
   return fileObj;
 };
@@ -51,7 +51,7 @@ const formatDirectory = function (dirPath) {
     try {
       formatFile(filePath);
     } catch (error) {
-      let errorMsg = `Error formatting file ${filePath}. ${error}`;
+      let errorMsg = `Error formatting file "${filePath}". Details: ${error}`;
       console.error(errorMsg);
       errors.push(errorMsg);
     }
