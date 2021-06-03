@@ -50,13 +50,13 @@ const formatDirectory = function (dirPath) {
     let filePath = `${dirPath}${path.sep}${xmlFile}`;
     try {
       formatFile(filePath);
-    } catch (error) {
-      let errorMsg = `Error formatting file "${filePath}". Details: ${error}`;
+    } catch (err) {
+      let errorMsg = `Error formatting file "${filePath}". Details: ${err.message}`;
       console.error(errorMsg);
       errors.push(errorMsg);
     }
   });
-  vscode.window.showErrorMessage(errors.join("\n"));
+  vscode.window.showErrorMessage(errors.join(" | "));
 };
 
 const formatFile = function (filePath) {
@@ -72,14 +72,21 @@ const isXMLFile = function (fileName) {
 const formatXML = function (xmlContent) {
   const parser = new xml2js.Parser(formatSettings.parserOptions);
   let sortedXml;
+
   parser.parseString(xmlContent, function (err, result) {
     if (result) {
       let builder = new xml2js.Builder(formatSettings.builderOptions);
       const sortConfiguration = getSortConfiguration();
       let sortedJsonObj = sort(result, sortConfiguration);
       sortedXml = builder.buildObject(sortedJsonObj);
+    } else {
+      console.error(err);
+      throw new Error(
+        "The file could not be parsed. Please ensure your file is a correct XML file."
+      );
     }
   });
+
   return sortedXml;
 };
 
@@ -94,17 +101,8 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
       return null;
     }
 
-    let sortedXml;
-    let errorMsg;
-
     try {
-      sortedXml = formatXML(xmlContent);
-    } catch (error) {
-      errorMsg = `An unexpected error has occurred. Details: ${error}`;
-      console.error(errorMsg);
-    }
-
-    if (sortedXml) {
+      let sortedXml = formatXML(xmlContent);
       const firstLine = document.lineAt(0);
       const lastLine = document.lineAt(document.lineCount - 1);
       const textRange = new vscode.Range(
@@ -113,11 +111,9 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
       );
 
       return [vscode.TextEdit.replace(textRange, sortedXml)];
-    } else {
-      if (!sortedXml) {
-        vscode.window.showInformationMessage(errorMsg);
-      }
-      return null;
+    } catch (err) {
+      console.error(err.message);
+      vscode.window.showErrorMessage(err.message);
     }
   },
 });
@@ -129,6 +125,9 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
+  console.log("START...");
+  // vscode.window.showInformationMessage("This is an info message!");
+
   // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
 
