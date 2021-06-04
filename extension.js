@@ -44,7 +44,6 @@ const getSortConfiguration = function () {
 
 const formatDirectory = function (dirPath) {
   let xmlFiles = fs.readdirSync(dirPath).filter(isXMLFile);
-  console.log(xmlFiles);
   let errors = [];
   xmlFiles.forEach((xmlFile) => {
     let filePath = `${dirPath}${path.sep}${xmlFile}`;
@@ -125,7 +124,6 @@ vscode.languages.registerDocumentFormattingEditProvider("xml", {
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-  console.log("START...");
   // vscode.window.showInformationMessage("This is an info message!");
 
   // Use the console to output diagnostic information (console.log) and errors (console.error)
