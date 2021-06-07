@@ -12,4 +12,16 @@
 
 ### Changed
 
-- Improve documentation: avoid VS Code warnings for using the publisher name in lowercase, and fill in the CHANGELOG.md file.
+- Improve documentation: avoid VS Code warnings for using the publisher name in lowercase, and fill in the CHANGELOG.md file
+
+## [0.0.3](https://github.com/swagup-com/sf-xml-formatter/releases/tag/v0.0.3) - 2021-06-07
+
+### Added
+
+- Add a new command to format all XML files in a folder
+- Improve error handling
+- Add support for field filters with filter logic (Prevents the order for the criteria would change and therefore modify the logic)
+
+### Changed
+
+- Improve tags specific logic for sorting more accurately

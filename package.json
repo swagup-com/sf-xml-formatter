@@ -8,7 +8,7 @@
 	"contributors": [
 		"Mauricio Perdomo <mauricio@swagup.com> (https://github.com/stdevMauricio1802)"
 	],
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"engines": {
 		"vscode": "^1.55.0"
 	},
@@ -43,8 +43,27 @@
 			{
 				"command": "sf-xml-formatter.openDocs",
 				"title": "SF XML FORMATTER: Open docs"
+			},
+			{
+				"command": "sf-xml-formatter.formatDirectory",
+				"title": "SF XML FORMATTER: Format XML files"
 			}
 		],
+		"menus" : {
+			"explorer/context" : [
+				{
+					"command": "sf-xml-formatter.formatDirectory",
+					"group": "Salesforce Formatter",
+					"when": "explorerResourceIsFolder"
+				}
+			],
+			"commandPalette": [
+				{
+				  "command": "sf-xml-formatter.formatDirectory",
+				  "when": "false"
+				}
+			]			
+		},
 		"breakpoints": [
 			{
 			  "language": "xml"		  
