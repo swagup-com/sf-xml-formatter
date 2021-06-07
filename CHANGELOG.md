@@ -14,7 +14,7 @@
 
 - Improve documentation: avoid VS Code warnings for using the publisher name in lowercase, and fill in the CHANGELOG.md file
 
-## [0.0.3](https://github.com/swagup-com/sf-xml-formatter/releases/tag/v0.0.3) - 2021-06-04
+## [0.0.3](https://github.com/swagup-com/sf-xml-formatter/releases/tag/v0.0.3) - 2021-06-07
 
 ### Added
 

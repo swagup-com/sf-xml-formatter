@@ -73,3 +73,5 @@ There is a command to open the docs:
 ```
 Using Command Palette (CMD/CTRL + Shift + P) -> SF XML FORMATTER: Open docs
 ```
+
+![Open Docs](/images/open_docs_command.jpg)
