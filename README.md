@@ -60,6 +60,11 @@ You can add the following line in your VS Code settings to disable the formatter
 
 ## Commands
 
+### Format directory command
+
+Format all XML files in a specific folder at once from the context menu.
+![Format an entire folder](/images/format_folder_example.gif)
+
 ### Open docs command
 
 There is a command to open the docs:
